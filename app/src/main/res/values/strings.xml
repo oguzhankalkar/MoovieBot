@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MoovieBot</string>
+    <string name="overview">Overview</string>
+    <string name="category">Category</string>
+    <string name="score">Score</string>
+    <string name="release_date">Release Date:</string>
+    <string name="movie">Movie</string>
+    <string name="search">Search</string>
+
+    <string name="ad_id_splash">testd7c5cewoj6</string>
+    <string name="ad_id_splash_landscape">testq6zq98hecj</string>
+    <string name="copyright_info">Copyright 2020. Huawei Technologies Co., Ltd</string>
+    <string name="status_load_ad_success">Ad loading state: loaded successfully.</string>
+    <string name="status_load_ad_fail">Ad loading state: failed to be loaded. Error code: </string>
+    <string name="status_ad_dismissed">Ad is dismissed.</string>
+</resources>

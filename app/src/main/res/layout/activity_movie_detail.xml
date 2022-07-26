@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="6dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ivBackdrop"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:src="@drawable/ic_movie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/constraintLayout"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivBackdrop">
+
+
+            <TextView
+                android:id="@+id/tvOverviewTitle"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:text="@string/overview"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOverviewTitle" />
+
+            <TextView
+                android:id="@+id/tvCategoryTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/category"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOverview" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategoryTitle" />
+
+            <TextView
+                android:id="@+id/tvScoreTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/score"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvScoreTitle" />
+
+            <TextView
+                android:id="@+id/tvDateTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/tvDate"
+                android:text="@string/release_date"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="16/06/2022"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDateTitle" />
+
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/mediationAdView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-5307917089464321/3150722349"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                app:layout_constraintTop_toBottomOf="@id/tvDate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.google.android.gms.ads.AdView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/image_classification_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="CLASSIFY POSTER"
+            android:layout_marginTop="9dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/detected_image_class_tv"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <TextView
+            android:id="@+id/detected_image_class_tv"
+            android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/image_classification_btn" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

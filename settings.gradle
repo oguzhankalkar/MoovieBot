@@ -1,0 +1,24 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        // Configure the Maven repository address for the HMS Core SDK.
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://jitpack.io" } // Add this line
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        // Configure the Maven repository address for the HMS Core SDK.
+        maven { url 'https://developer.huawei.com/repo/' }
+        maven { url "https://jitpack.io" } // Add this line
+    }
+}
+
+rootProject.name = "MoovieBot"
+include ':app'

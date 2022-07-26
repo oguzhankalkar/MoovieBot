@@ -1,0 +1,108 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.huawei.agconnect'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.mooviebot"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('moovie.jks')
+            keyAlias 'Moovie'
+            keyPassword 'Trial.123'
+            storePassword 'Trial.123'
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //Lifecycle components
+    def archLifecycleVersion = '1.1.1'
+    implementation "android.arch.lifecycle:extensions:$archLifecycleVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$archLifecycleVersion"
+
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    //AGConnect
+    implementation 'com.huawei.agconnect:agconnect-core:1.6.0.300'
+
+    //Account Kit
+    implementation 'com.huawei.hms:hwid:6.4.0.301'
+
+    //Ads Kit
+    implementation 'com.huawei.hms:ads-prime:3.4.55.302'
+
+    //ML Kit
+    implementation 'com.huawei.hms:ml-computer-vision-classification:3.2.0.300' // Base SDK
+    implementation 'com.huawei.hms:ml-computer-vision-image-classification-model:3.2.0.300'
+
+
+
+
+    //Google AdMob SDK
+    implementation 'com.google.android.gms:play-services-ads:19.8.0'
+
+    implementation 'com.google.gms:google-services:4.3.13'
+
+    //Adapter SDK
+    implementation 'com.github.Explore-In-HMS:huawei.ads.admob_mediation:1.2.13'
+
+    //Google Consent SDK. Include this SDK if you receive a ConsentInfo error upon receiving a Huawei Ads. This is necessary with the recent Google AdMob SDK updates.
+    implementation 'com.google.android.ads.consent:consent-library:1.0.8'
+
+}
