@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:layout_margin="10dp">
-
+    android:background="@color/colorPrimaryDark">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.30"/>
+        app:layout_constraintGuide_percent="0.35" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guidelineTop"/>
+
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to MoovieBot! Please Sign In:"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="32dp"
+        android:text="Sign in with:"
+        android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guidelineTop"/>
-
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_movie"
-        app:layout_constraintBottom_toTopOf="@+id/guidelineTop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/guidelineTop" />
 
     <TextView
         android:id="@+id/tvHuaweiId"
@@ -42,8 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:padding="10dp"
-        android:text="Sign in with Huawei ID"
-        android:textColor="@color/black"
+        android:text="Huawei ID"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnHuaweiId"
         app:layout_constraintEnd_toStartOf="@+id/btnHuaweiId"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,8 +54,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         app:hwid_button_theme="hwid_button_theme_no_title"
         app:hwid_color_policy="hwid_color_policy_red"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,8 +67,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:padding="10dp"
-        android:text="Sign in with Authorization Code"
-        android:textColor="@color/black"
+        android:text="Authorization Code"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnHuaweiAuth"
         app:layout_constraintEnd_toStartOf="@+id/btnHuaweiAuth"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,8 +79,8 @@
         android:id="@+id/btnHuaweiAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         app:hwid_button_theme="hwid_button_theme_no_title"
         app:hwid_color_policy="hwid_color_policy_red"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,8 +93,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:padding="10dp"
-        android:text="Sign in with Silent Sign In"
-        android:textColor="@color/black"
+        android:text="Silent Sign In"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btnHuaweiSilent"
         app:layout_constraintEnd_toStartOf="@+id/btnHuaweiSilent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -104,8 +106,8 @@
         android:id="@+id/btnHuaweiSilent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         app:hwid_button_theme="hwid_button_theme_no_title"
         app:hwid_color_policy="hwid_color_policy_red"
         app:layout_constraintEnd_toEndOf="parent"

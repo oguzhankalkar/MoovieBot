@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.example.mooviebot.adapter.MovieAdapter
 import com.example.mooviebot.adapter.OnItemClickListener
@@ -20,18 +22,29 @@ import com.huawei.hms.ads.HwAds
 import com.huawei.hms.ads.banner.BannerView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.mooviebot.R
+import com.example.mooviebot.ui.profile.ProfileActivity
+import com.huawei.hms.analytics.HiAnalytics
+import com.huawei.hms.analytics.HiAnalyticsInstance
+import com.huawei.hms.analytics.HiAnalyticsTools
+import com.huawei.hms.analytics.type.HAEventType.*
+import com.huawei.hms.analytics.type.HAParamType.*
+import java.text.SimpleDateFormat
+import java.util.*
 
-class MovieSearchActivity : AppCompatActivity() ,OnItemClickListener{
+
+class MovieSearchActivity : AppCompatActivity(), OnItemClickListener {
     private var binding: ActivityMovieSearchBinding? = null
     private var mViewModel: MovieSearchViewModel? = null
     private lateinit var movieAdapter: MovieAdapter
+    lateinit var instance: HiAnalyticsInstance
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMovieSearchBinding.inflate(
             layoutInflater
         )
         setContentView(binding!!.root)
-        mViewModel = ViewModelProviders.of(this).get(MovieSearchViewModel::class.java)
+        mViewModel = ViewModelProviders.of(this)[MovieSearchViewModel::class.java]
 
         HwAds.init(this)
         loadBannerAd()
@@ -39,6 +52,11 @@ class MovieSearchActivity : AppCompatActivity() ,OnItemClickListener{
         initComponents()
         initClicks()
         initObservers()
+
+        HiAnalyticsTools.enableLog()
+
+        instance = HiAnalytics.getInstance(this)
+
     }
 
     private fun loadBannerAd() {
@@ -52,10 +70,48 @@ class MovieSearchActivity : AppCompatActivity() ,OnItemClickListener{
         rootView.addView(topBannerView)
     }
 
+    private fun reportMovieDetails(movieSearch: String, movie: Result?) {
+        //movieSearch
+        //searchTime
+        //movieID clicked
+        val bundle = Bundle()
+        bundle.putString("movieSearch", movieSearch)
+        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+        bundle.putString("searchTime", sdf.format(Date()))
+        if (movie != null) {
+            bundle.putString("movieID", movie.id.toString())
+        }
+        // Report a custom event.
+        instance.onEvent("MovieDetails", bundle)
+    }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.app_bar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.miProfile -> {
+                val loginTypeName = intent.getStringExtra("LOGIN TYPE NAME")
+                val loginType = intent.getStringExtra("LOGIN TYPE")
+                val intent = Intent(this, ProfileActivity::class.java).also {
+                    it.putExtra("LOGIN TYPE NAME", loginTypeName)
+                    it.putExtra("LOGIN TYPE", loginType)
+                }
+                startActivity(intent)
+            }
+        }
+        return true
+    }
+
+
     private fun initComponents() {
         binding!!.rvMovies.layoutManager = LinearLayoutManager(this)
         binding!!.rvMovies.itemAnimator = DefaultItemAnimator()
-        movieAdapter = MovieAdapter(this,this)
+        movieAdapter = MovieAdapter(this, this)
         binding!!.rvMovies.adapter = movieAdapter
     }
 
@@ -65,11 +121,6 @@ class MovieSearchActivity : AppCompatActivity() ,OnItemClickListener{
                 binding!!.etSearch.text.toString()
             )
         }
-       // movieAdapter!!.setOnClickListener { pos: Int, movie: Result ->
-       //     val intent = Intent(this@MovieSearchActivity, MovieDetailActivity::class.java)
-       //     intent.putExtra(Constants.ARG_MOVIE_ID, movie.id)
-       //     startActivity(intent)
-       //  }
     }
 
     private fun initObservers() {
@@ -85,16 +136,24 @@ class MovieSearchActivity : AppCompatActivity() ,OnItemClickListener{
             })
     }
 
-    /**
-     * Set the data to the RecyclerView's adapter
-     *
-     * @param models as List<Result>
-    </Result> */
     private fun prepareRecycler(models: List<Result>) {
-        movieAdapter!!.setAdapterList(models)
+        movieAdapter.setAdapterList(models)
     }
 
     override fun onItemClicked(position: Int, movie: Result?) {
+        val movieSearched = binding?.etSearch?.text.toString()
+
+        if(movieSearched != null){
+            reportMovieDetails(movieSearched,movie)
+        }else{
+            reportMovieDetails("",movie)
+        }
+
+        val loginTypeName = intent.getStringExtra("LOGIN TYPE NAME")
+        if(loginTypeName != null){
+            instance.setUserProfile("login_type",loginTypeName)
+        }
+
         val intent = Intent(this@MovieSearchActivity, MovieDetailActivity::class.java)
         if (movie != null) {
             intent.putExtra(Constants.ARG_MOVIE_ID, movie.id)

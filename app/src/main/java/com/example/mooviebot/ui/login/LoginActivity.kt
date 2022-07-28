@@ -65,11 +65,6 @@ class LoginPageActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Process the returned AuthAccount object to obtain the HUAWEI ID information.
-     *
-     * @param authAccount AuthAccount object, which contains the HUAWEI ID information.
-     */
     private fun dealWithResultOfSignIn(authAccount: AuthAccount) {
         /*
         Log.i(TAG, "idToken:" + authAccount.idToken)
@@ -92,7 +87,16 @@ class LoginPageActivity : AppCompatActivity() {
                 // The sign-in is successful, and the user's ID information and ID token are obtained.
                 val authAccount = authAccountTask.result
                 Log.i(TAG, "idToken:" + authAccount.idToken)
-                dealWithResultOfSignIn(authAccount)
+
+                //dealWithResultOfSignIn(authAccount)
+                val loginTypeName = "Huawei ID"
+                val loginType = authAccount.idToken.toString()
+                val i = Intent(baseContext, MovieSearchActivity::class.java).also {
+                    it.putExtra("LOGIN TYPE NAME", loginTypeName)
+                    it.putExtra("LOGIN TYPE", loginType)
+                }
+                startActivity(i)
+
             } else {
                 // The sign-in failed. No processing is required. Logs are recorded for fault locating.
                 Log.e(
@@ -107,7 +111,16 @@ class LoginPageActivity : AppCompatActivity() {
                 // The sign-in is successful, and the user's ID information and ID token are obtained.
                 val authAccount = authAccountTask.result
                 Log.i(TAG, "serverAuthCode:" + authAccount.authorizationCode)
-                dealWithResultOfSignIn(authAccount)
+
+                //dealWithResultOfSignIn(authAccount)
+                val loginTypeName = "Authorization Code"
+                val loginType = authAccount.authorizationCode.toString()
+                val i = Intent(baseContext, MovieSearchActivity::class.java).also {
+                    it.putExtra("LOGIN TYPE NAME", loginTypeName)
+                    it.putExtra("LOGIN TYPE", loginType)
+                }
+                startActivity(i)
+
             } else {
                 // The sign-in failed. No processing is required. Logs are recorded for fault locating.
                 Log.e(

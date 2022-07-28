@@ -1,5 +1,6 @@
 package com.example.mooviebot.ui.movie_detail
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
@@ -11,13 +12,18 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.drawToBitmap
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.example.mooviebot.R
 import com.example.mooviebot.data.movie_detail.MovieDetailModel
 import com.example.mooviebot.databinding.ActivityMovieDetailBinding
+import com.example.mooviebot.ui.custom_dialog.CustomMLActivity
+import com.example.mooviebot.ui.movie_search.MovieSearchActivity
+import com.example.mooviebot.ui.profile.ProfileActivity
 import com.example.mooviebot.util.Constants
 import com.google.android.gms.ads.*
+import com.huawei.agconnect.crash.AGConnectCrash
 import com.huawei.hmf.tasks.Task
 import com.huawei.hms.mlsdk.classification.MLImageClassification
 import com.huawei.hms.mlsdk.classification.MLImageClassificationAnalyzer
@@ -37,7 +43,7 @@ class MovieDetailActivity : AppCompatActivity() {
     private var posterBitmap: Bitmap? = null
     private val TAG = "ImageDetectionFragment"
 
-    lateinit var hAdView : AdView
+    lateinit var hAdView: AdView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,24 +56,26 @@ class MovieDetailActivity : AppCompatActivity() {
         loadMediationAd()
     }
 
-    fun loadMediationAd(){
+    private fun loadMediationAd() {
         MobileAds.initialize(this) {}
         hAdView = findViewById(R.id.mediationAdView)
         val adRequest = AdRequest.Builder().build()
         hAdView.loadAd(adRequest)
 
-
         //listener for the ad
-        hAdView.adListener = object: AdListener() {
+        hAdView.adListener = object : AdListener() {
 
             override fun onAdLoaded() {
                 // Code to be executed when an ad finishes loading.
             }
 
-            override fun onAdFailedToLoad(adError : LoadAdError) {
-                Toast.makeText(this@MovieDetailActivity, "Failed to load Huawei ad, please check your internet connection.",
-                    Toast.LENGTH_LONG).show()
-                Log.v("adError",adError.toString())
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                Toast.makeText(
+                    this@MovieDetailActivity,
+                    "Failed to load Huawei ad, please check your internet connection.",
+                    Toast.LENGTH_LONG
+                ).show()
+                Log.v("adError", adError.toString())
             }
 
             override fun onAdOpened() {
@@ -140,36 +148,49 @@ class MovieDetailActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
                 handler.post {
-                    binding?.ivBackdrop?.setImageBitmap(posterBitmap)
+                    binding?.ivPosterML?.setImageBitmap(posterBitmap)
+
                     analyzer = createImageAnalyzer()
+
                     frameML = MLFrame.fromBitmap(posterBitmap)
+
                     val imageClassificationButton =
                         findViewById<Button>(R.id.image_classification_btn)
-                    val detectedClassesTv =
-                        findViewById<TextView>(R.id.detected_image_class_tv)
+
                     imageClassificationButton.setOnClickListener { view1: View? ->
                         val task: Task<List<MLImageClassification>> =
                             analyzer!!.asyncAnalyseFrame(frameML)
+
                         task.addOnSuccessListener { classifications ->
                             val sb = StringBuilder()
-                            sb.append("Results: \n\n")
+
+                            sb.append("\n")
                             for (i in classifications.indices) {
                                 sb.append("[")
                                     .append(i)
                                     .append("] ")
-                                    .append(classifications.get(i).getName())
+                                    .append(classifications[i].name)
                                     .append("\n")
                             }
-                            if (classifications.size > 0) {
-                                detectedClassesTv.text = sb.toString()
+                            if (classifications.isNotEmpty()) {
+                                val result = sb.toString()
+                                val i = Intent(baseContext, CustomMLActivity::class.java).also {
+                                    it.putExtra("ML RESULT", result)
+                                }
+                                startActivity(i)
                             } else {
-                                detectedClassesTv.text = """
-                                    Results: 
-                                    
+                                val resultEmpty = """
                                     [0] Others
                                     """.trimIndent()
+
+                                val i = Intent(baseContext, CustomMLActivity::class.java).also {
+                                    it.putExtra("ML RESULT", resultEmpty)
+                                }
+                                startActivity(i)
                             }
+
                             releaseImageDetectionResources()
+
                         }.addOnFailureListener { e ->
                             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
                         }
@@ -186,7 +207,8 @@ class MovieDetailActivity : AppCompatActivity() {
         if (movie.genres!!.isNotEmpty() and (movie.genres!!.size != 0)) {
             var genres = ""
             for (genre in movie.genres!!) {
-                if (genres == "") genres = genre.name.toString() else genres += ", " + genre.name.toString()
+                if (genres == "") genres =
+                    genre.name.toString() else genres += ", " + genre.name.toString()
             }
             binding?.tvCategory?.text = genres
         }
@@ -195,9 +217,10 @@ class MovieDetailActivity : AppCompatActivity() {
     }
 
     private fun createImageAnalyzer(): MLImageClassificationAnalyzer {
-        val setting: MLLocalClassificationAnalyzerSetting = MLLocalClassificationAnalyzerSetting.Factory()
-            .setMinAcceptablePossibility(0.8f)
-            .create()
+        val setting: MLLocalClassificationAnalyzerSetting =
+            MLLocalClassificationAnalyzerSetting.Factory()
+                .setMinAcceptablePossibility(0.8f)
+                .create()
         return MLAnalyzerFactory.getInstance().getLocalImageClassificationAnalyzer(setting)
     }
 

@@ -84,15 +84,12 @@ dependencies {
     //Account Kit
     implementation 'com.huawei.hms:hwid:6.4.0.301'
 
-    //Ads Kit
-    implementation 'com.huawei.hms:ads-prime:3.4.55.302'
-
     //ML Kit
     implementation 'com.huawei.hms:ml-computer-vision-classification:3.2.0.300' // Base SDK
     implementation 'com.huawei.hms:ml-computer-vision-image-classification-model:3.2.0.300'
 
-
-
+    //Ads Kit
+    implementation 'com.huawei.hms:ads-prime:3.4.54.300'
 
     //Google AdMob SDK
     implementation 'com.google.android.gms:play-services-ads:19.8.0'
@@ -100,9 +97,15 @@ dependencies {
     implementation 'com.google.gms:google-services:4.3.13'
 
     //Adapter SDK
-    implementation 'com.github.Explore-In-HMS:huawei.ads.admob_mediation:1.2.13'
+    implementation 'com.github.Explore-In-HMS:huawei.ads.admob_mediation:1.2.12'
 
     //Google Consent SDK. Include this SDK if you receive a ConsentInfo error upon receiving a Huawei Ads. This is necessary with the recent Google AdMob SDK updates.
     implementation 'com.google.android.ads.consent:consent-library:1.0.8'
+
+    //Huawei Analytics Kit
+    implementation 'com.huawei.hms:hianalytics:6.6.0.300'
+
+    //Huawei Crash Kit
+    implementation 'com.huawei.agconnect:agconnect-crash:1.5.1.300'
 
 }

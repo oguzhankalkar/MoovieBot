@@ -97,13 +97,13 @@ class SplashActivity : Activity() {
             //splashView!!.setSloganResId(R.drawable.default_slogan_landscape)
             getString(R.string.ad_id_splash_landscape)
         }
-        splashView!!.setLogo(findViewById(R.id.logo_area))
+        splashView!!.logo = findViewById(R.id.logo_area)
         // Set a logo image.
-        splashView!!.setLogoResId(R.mipmap.ic_launcher)
+        splashView!!.logoResId = R.mipmap.ic_launcher
         // Set logo description.
-        splashView!!.setMediaNameResId(R.string.app_name)
+        splashView!!.mediaNameResId = R.string.app_name
         // Set the audio focus type for a video splash ad.
-        splashView!!.setAudioFocusType(AudioFocusType.NOT_GAIN_AUDIO_FOCUS_WHEN_MUTE)
+        splashView!!.audioFocusType = AudioFocusType.NOT_GAIN_AUDIO_FOCUS_WHEN_MUTE
         splashView!!.load(slotId, orientation, adParam, splashAdLoadListener)
         Log.i(TAG, "End to load ad")
 

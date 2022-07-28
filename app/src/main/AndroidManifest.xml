@@ -7,6 +7,8 @@
     <!--check wifi state-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,13 +22,17 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.movie_detail.MovieDetailActivity"
-            android:exported="true" />
+            android:exported="true">
+        <intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.movie_search.MovieSearchActivity"
@@ -36,9 +42,23 @@
             android:name=".ui.login.LoginPageActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".ui.custom_dialog.CustomMLActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-5307917089464321~2603927437"/>
+            android:value="ca-app-pub-9180051608295548~2640969771" />
+
+        <meta-data
+            android:name="install_channel"
+            android:value="AppGallery">
+        </meta-data>
+
     </application>
 
 </manifest>
