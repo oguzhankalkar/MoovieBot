@@ -29,14 +29,11 @@ class ProfileActivity : AppCompatActivity() {
         binding.tvLoginField.text = loginType
         binding.tvLoginFieldTitle.text = loginTypeName
 
-        binding.btnLogout.setOnClickListener{
-            logOut()
-        }
         binding.btnCrash.setOnClickListener{
             AGConnectCrash.getInstance().testIt(this)
         }
         binding.btnCustomReport.setOnClickListener {
-            AGConnectCrash.getInstance().setUserId("testUser3");
+            AGConnectCrash.getInstance().setUserId("testUser2");
             AGConnectCrash.getInstance().log(Log.DEBUG,"set debug log.");
             AGConnectCrash.getInstance().log(Log.INFO,"set info log.");
             AGConnectCrash.getInstance().log(Log.WARN,"set warning log.");
@@ -48,16 +45,5 @@ class ProfileActivity : AppCompatActivity() {
             AGConnectCrash.getInstance().setCustomKey("intKey", 22);
             AGConnectCrash.getInstance().setCustomKey("longKey", 22L);
         }
-    }
-
-    private fun logOut(){
-        val authParams: AccountAuthParams =
-            AccountAuthParamsHelper(AccountAuthParams.DEFAULT_AUTH_REQUEST_PARAM).setIdToken()
-                .createParams()
-        val service: AccountAuthService =
-            AccountAuthManager.getService(this, authParams)
-
-        // service indicates the AccountAuthService instance generated using the getService method during the sign-in authorization.
-        val signOutTask = service.signOut()
     }
 }

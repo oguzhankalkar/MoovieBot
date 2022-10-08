@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mooviebot.R
 import com.example.mooviebot.ui.movie_search.MovieSearchActivity
@@ -66,29 +67,27 @@ class LoginPageActivity : AppCompatActivity() {
     }
 
     private fun dealWithResultOfSignIn(authAccount: AuthAccount) {
-        /*
         Log.i(TAG, "idToken:" + authAccount.idToken)
         if (authAccount.idToken == null) {
             Toast.makeText(this, "ID Token is not found!", Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(this, authAccount.getIdToken(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, authAccount.idToken, Toast.LENGTH_SHORT).show();
         }
-        */
-        val i = Intent(baseContext, MovieSearchActivity::class.java)
+        val loginTypeName = "Huawei ID"
+        val i = Intent(baseContext, MovieSearchActivity::class.java).also {
+            it.putExtra("LOGIN TYPE NAME", loginTypeName)
+            it.putExtra("LOGIN TYPE", "")
+        }
         startActivity(i)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // Process the authorization result and obtain an ID to**AuthAccount**thAccount.
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 8888) {
             val authAccountTask = AccountAuthManager.parseAuthResultFromIntent(data)
             if (authAccountTask.isSuccessful) {
-                // The sign-in is successful, and the user's ID information and ID token are obtained.
                 val authAccount = authAccountTask.result
                 Log.i(TAG, "idToken:" + authAccount.idToken)
-
-                //dealWithResultOfSignIn(authAccount)
                 val loginTypeName = "Huawei ID"
                 val loginType = authAccount.idToken.toString()
                 val i = Intent(baseContext, MovieSearchActivity::class.java).also {
@@ -108,11 +107,8 @@ class LoginPageActivity : AppCompatActivity() {
         if (requestCode == 8887) {
             val authAccountTask = AccountAuthManager.parseAuthResultFromIntent(data)
             if (authAccountTask.isSuccessful) {
-                // The sign-in is successful, and the user's ID information and ID token are obtained.
                 val authAccount = authAccountTask.result
                 Log.i(TAG, "serverAuthCode:" + authAccount.authorizationCode)
-
-                //dealWithResultOfSignIn(authAccount)
                 val loginTypeName = "Authorization Code"
                 val loginType = authAccount.authorizationCode.toString()
                 val i = Intent(baseContext, MovieSearchActivity::class.java).also {
@@ -122,7 +118,6 @@ class LoginPageActivity : AppCompatActivity() {
                 startActivity(i)
 
             } else {
-                // The sign-in failed. No processing is required. Logs are recorded for fault locating.
                 Log.e(
                     TAG,
                     "sign in failed:" + (authAccountTask.exception as ApiException).statusCode
